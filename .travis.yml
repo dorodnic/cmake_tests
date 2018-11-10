@@ -27,6 +27,9 @@ addons:
 before_install:
 
 install:
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then
+      choco install wixtoolset --version 3.11.1;
+    fi
 
 script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then set -e;
@@ -46,11 +49,11 @@ script:
       cpack ..;
     fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then 
-      "taskkill /IM devenv.exe /F";
+      cmd //c taskkill //im devenv.exe //f;
       choco install wixtoolset --version 3.11.1;
       cmake .. -DCMAKE_INSTALL_PREFIX=/usr .. -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=Release -DCPACK_GENERATOR=WIX;
       cpack .. -G WIX;
-      cmake .. -DBUILD_SHARED_LIBS=false
+      cmake .. -DBUILD_SHARED_LIBS=false;
       cmake --build . --config Release;
     fi
 
