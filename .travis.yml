@@ -24,3 +24,4 @@ script:
   mkdir build && cd build;
   cmake .. -DBUILD_SHARED_LIBS=true;
   cmake --build .;
+  ./test/unit-tests;
