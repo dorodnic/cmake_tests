@@ -35,6 +35,23 @@ ExternalProject_Add(
 list(APPEND FRACTAL_UI_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/glfw_install/include)
 link_directories(${CMAKE_CURRENT_BINARY_DIR}/glfw_install/lib)
 
+if(APPLE)
+    find_library(COCOA_LIBRARY Cocoa)
+    find_library(IOKIT_LIBRARY IOKit)
+    find_library(COREVIDEO_LIBRARY CoreVideo)
+    LIST(APPEND FRACTAL_UI_DEPENDENCIES ${COCOA_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY})
+endif()
+if (UNIX)
+    find_library(x11 NAMES X11)
+    find_library(xrandr NAMES Xrandr)
+    find_library(xcursor NAMES Xcursor)
+    find_library(xi NAMES Xi)
+    find_library(xxf86vm NAMES Xxf86vm)
+    find_library(dl NAMES dl)
+    find_library(xinerama NAMES Xinerama)
+    list(APPEND FRACTAL_UI_DEPENDENCIES m ${x11} ${xrandr} ${xi} ${xxf86vm} ${dl} ${xcursor} ${xinerama})
+endif()
+
 add_executable(fractal-ui fractal-ui.cpp)
 
 target_include_directories(fractal-ui PRIVATE ${FRACTAL_UI_INCLUDES})
