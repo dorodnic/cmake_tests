@@ -52,3 +52,8 @@ option(BUILD_UNIT_TESTS "Build Unit-Tests" ON)
 if(BUILD_UNIT_TESTS)
     add_subdirectory(test)
 endif()
+
+option(BUILD_INSTALLER "Build Installer" ON)
+if(BUILD_INSTALLER)
+    add_subdirectory(installer)
+endif()
