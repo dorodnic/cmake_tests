@@ -11,7 +11,7 @@ if(OPENMP_FOUND)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
-add_library(fractal src/fractal.cpp include/fractal/fractal.h)
+add_library(fractal src/fractal.cpp src/fractal.def include/fractal/fractal.h)
 
 target_include_directories(fractal PRIVATE include)
 

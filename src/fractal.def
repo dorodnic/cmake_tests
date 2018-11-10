@@ -1,0 +1,5 @@
+LIBRARY
+
+EXPORTS
+    fractal_mandelbrot
+    fractal_mandelbrot_bulk
