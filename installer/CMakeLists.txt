@@ -23,5 +23,8 @@ if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
 	set(CPACK_DEBIAN_ARCHITECTURE ${CMAKE_SYSTEM_PROCESSOR})
 	 
 	set(CPACK_COMPONENTS_ALL Libraries ApplicationData)
+
+	set(CPACK_WIX_UPGRADE_GUID "608d5b63-87ec-4c86-8784-2fe4c49d0df4")
+
 	include(CPack)
 endif()
