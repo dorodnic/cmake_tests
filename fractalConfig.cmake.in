@@ -1,0 +1,10 @@
+@PACKAGE_INIT@
+
+set(fractal_VERSION_MAJOR "@MAJOR_VERSION@")
+set(fractal_VERSION_MINOR "@MINOR_VERSION@")
+set(fractal_VERSION_PATCH "@PATCH_VERSION@")
+
+set_and_check(fractal_INCLUDE_DIR "@PACKAGE_CMAKE_INSTALL_INCLUDEDIR@")
+
+include("${CMAKE_CURRENT_LIST_DIR}/fractalTargets.cmake")
+set(fractal_LIBRARY fractal::fractal)
