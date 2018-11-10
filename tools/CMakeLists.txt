@@ -5,7 +5,7 @@ project(fractal-tools)
 set(CMAKE_CXX_STANDARD 11)
 
 set(FRACTAL_UI_INCLUDES ../include)
-set(FRACTAL_UI_DEPENDENCIES fractal glfw)
+set(FRACTAL_UI_DEPENDENCIES fractal glfw3)
 
 find_package(OpenGL)
 if(NOT OPENGL_FOUND)
@@ -28,7 +28,7 @@ ExternalProject_Add(
     CMAKE_ARGS -DCMAKE_CXX_STANDARD_LIBRARIES=${CMAKE_CXX_STANDARD_LIBRARIES}
                -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
                -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/glfw_install
-               -DBUILD_SHARED_LIBS=true
+               -DBUILD_SHARED_LIBS=false
     TEST_COMMAND ""
 )
         
