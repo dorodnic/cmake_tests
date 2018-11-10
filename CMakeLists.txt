@@ -64,3 +64,8 @@ option(BUILD_INSTALLER "Build Installer" ON)
 if(BUILD_INSTALLER)
     add_subdirectory(installer)
 endif()
+
+option(BUILD_TOOLS "Build UI Tools" ON)
+if(BUILD_TOOLS)
+    add_subdirectory(tools)
+endif()

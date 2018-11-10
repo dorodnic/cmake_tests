@@ -8,12 +8,19 @@ sudo: false
 dist: trusty
 osx_image: xcode7
 
+addons:
+  apt:
+    packages:
+    - xorg-dev
+    - libglu1-mesa-dev
+
 before_install:
 
 install:
 
 script:
   echo "Building the library...";
+  cmake --version;
   mkdir build && cd build;
   cmake .. -DBUILD_SHARED_LIBS=true;
   cmake --build .;
