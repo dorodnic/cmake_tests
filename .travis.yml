@@ -42,10 +42,11 @@ script:
     else ./test/unit-tests;
     fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
-      cmake .. -DCMAKE_INSTALL_PREFIX=/usr .. -DBUILD_SHARED_LIBS=true -DCPACK_GENERATOR=DEB;
+      cmake .. -DCMAKE_INSTALL_PREFIX=/usr .. -DBUILD_SHARED_LIBS=true -DCPACK_GENERATOR="DEB;TGZ";
       cpack ..;
     fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then 
+      choco install wixtoolset;
       cmake .. -DCMAKE_INSTALL_PREFIX=/usr .. -DBUILD_SHARED_LIBS=true -DCPACK_GENERATOR=WIX;
       cpack .. -G WIX;
     fi
