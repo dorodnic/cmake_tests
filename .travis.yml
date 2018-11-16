@@ -25,7 +25,9 @@ addons:
     - libxrandr-dev
 
 before_install:
-  - pip install --user cpp-coveralls
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
+      pip install --user cpp-coveralls;
+    fi
 
 install:
 
@@ -42,20 +44,19 @@ script:
       ./test/Debug/unit-tests.exe;
     else ./test/unit-tests;
     fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
-      cmake .. -DCMAKE_INSTALL_PREFIX=/usr .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=true -DCPACK_GENERATOR="DEB;TGZ";
-    fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then 
       cmake .. -DBUILD_SHARED_LIBS=false;
       cmake --build . --config Release;
     fi
   - cd ..;
-  - find $directory -type f -name "*.gcno";
-  - find $directory -type f -name "*.gcda";
-  - gcov --object-directory=./build/CMakeFiles/fractal.dir/src/;
+  - gcov src/fractal.cpp --object-directory=./build/CMakeFiles/fractal.dir/src/;
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
+      cmake .. -DCMAKE_INSTALL_PREFIX=/usr .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=true -DCPACK_GENERATOR="DEB;TGZ";
+      cpack .;
+    fi
     
 after_success:
-  - coveralls --verbose --exclude tools --exclude test --exclude build --gcov-options '\-lp'
+  - coveralls --verbose --exclude tools --exclude test --exclude build --gcov-options '\-lp';
 
 deploy:
   provider: releases
