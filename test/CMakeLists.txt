@@ -7,4 +7,6 @@ set(CMAKE_CXX_STANDARD 11)
 add_executable(unit-tests test.cpp)
 
 target_include_directories(unit-tests PRIVATE ../include)
-target_link_libraries(unit-tests fractal)
+target_link_libraries(unit-tests fractal --coverage)
+
+target_compile_options(unit-tests PRIVATE --coverage)
