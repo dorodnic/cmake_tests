@@ -26,7 +26,7 @@ TEST_CASE("Test bulk", "[mandelbrot]") {
         ys[i] = unif(re);
     }
     
-    fractal_mandelbrot_bulk(xs, ys, MAX, res, iterations);
+    //fractal_mandelbrot_bulk(xs, ys, MAX, res, iterations);
     for (int i = 0; i < MAX; i++)
     {
         //REQUIRE(res[i] == fractal_mandelbrot(xs[i], ys[i], iterations));
