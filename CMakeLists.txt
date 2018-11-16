@@ -18,6 +18,9 @@ endif()
 
 add_library(fractal src/fractal.cpp src/fractal.def include/fractal/fractal.h)
 
+add_definitions(-fprofile-arcs -ftest-coverage)
+target_link_libraries(fractal -fprofile-arcs)
+
 target_include_directories(fractal PRIVATE include)
 
 set_target_properties(fractal
