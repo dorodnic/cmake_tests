@@ -49,12 +49,15 @@ script:
       cmake --build . --config Release;
     fi
   - gcov ../src/fractal.cpp --object-directory=./CMakeFiles/fractal.dir/src/;
-  - coveralls --verbose --exclude tools --exclude test --exclude build --gcov-options '\-lp';
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
+  - cd ..;
+  
+after_success:		
+   - coveralls --verbose --exclude tools --exclude test --exclude build --gcov-options '\-lp';
+   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      cd build;
       cmake .. -DCMAKE_INSTALL_PREFIX=/usr .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=true -DCPACK_GENERATOR="DEB;TGZ";
       cpack .;
     fi
-  - cd ..;
 
 deploy:
   provider: releases
@@ -62,9 +65,9 @@ deploy:
     secure: T81rFcgrMEKUhMMxpH3Z1JKjgczYkKdfuk1nKP0XHhcpFHD5yVx3zD0tElEgDniwOVG3UuKivXDg57XynnRqCfuM5F9KIRYrjFYR3unL1LRibj9Q7EeONFOedsvT9cihlD5X4xalDOZpjGGLqeW3HgyBsC5WuXlvy7DLJeGKl7XJuFuCeYKC9yysuwvZvjcTMnGBqMPkdDGxvvIZIEJojHoJ6iXEME1146lBB7A5ZxOF/rTH2Ck7qVGWL2C/9OJ2L1kWJGQCLdRpguGvLND5ljLxKjAvoMMiuMmQouQ1aLgEtXx2G1cWVpkqVv8bfBINb1RNcGUt8twis0y5LBcBpptmaxQrotHm9LiR3EvWjaDdShCx7TCcucfMKjrmw6WZdLWKsNe2XUPW8qBGJ3GYQz5HG0W0y8Pmqsh89cF/ewXBF5Ubv8YtuKUVlC1RbmZve9bSmcLIUodJUeLo3ES12De7UjKEASA0E9fPZGzCVJbHNgb+4OpupYMrFZ8GfziVAWmm9hozxyP1raOaC2klABEek8msGaf7afsSysk+ISot56FqUhslNQGpp52yzVMUDA6KL/CR8/tDUeSETiJyhDlck9aGfdx8J7NPgPnLesCvM6hnjq4mqNDDxLBxG4vQQNVa9Vv9aah52cMgXauuOX5rxew3tXPfXiY35X7lr/4=
   file_glob: true
   file: 
-    - ./build/fractal_*.deb
-    - ./build/fractal_*.tar.gz
-    - ./build/tools/Release/fractal-ui.exe
+    - ./fractal_*.deb
+    - ./fractal_*.tar.gz
+    - ./tools/Release/fractal-ui.exe
   skip_cleanup: true
   on:
     tags: true
