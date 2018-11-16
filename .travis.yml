@@ -44,13 +44,14 @@ script:
     fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
       cmake .. -DCMAKE_INSTALL_PREFIX=/usr .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=true -DCPACK_GENERATOR="DEB;TGZ";
-      cpack ..;
+      #cpack ..;
     fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then 
       cmake .. -DBUILD_SHARED_LIBS=false;
       cmake --build . --config Release;
     fi
   - cd ..;
+  - find $directory -type f -name "*.gcno";
   - gcov src/fractal.cpp;
     
 after_success:
