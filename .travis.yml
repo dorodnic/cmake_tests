@@ -49,14 +49,12 @@ script:
       cmake --build . --config Release;
     fi
   - gcov ../src/fractal.cpp --object-directory=./CMakeFiles/fractal.dir/src/;
+  - coveralls --verbose --exclude tools --exclude test --exclude build --gcov-options '\-lp';
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
       cmake .. -DCMAKE_INSTALL_PREFIX=/usr .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=true -DCPACK_GENERATOR="DEB;TGZ";
       cpack .;
     fi
   - cd ..;
-    
-after_success:
-  - coveralls --verbose --exclude tools --exclude test --exclude build --gcov-options '\-lp';
 
 deploy:
   provider: releases
