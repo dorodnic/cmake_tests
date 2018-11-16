@@ -25,6 +25,7 @@ addons:
     - libxrandr-dev
 
 before_install:
+  - pip install --user cpp-coveralls
 
 install:
 
