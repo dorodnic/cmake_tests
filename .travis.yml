@@ -52,7 +52,7 @@ script:
   - cd ..;
   - find $directory -type f -name "*.gcno";
   - find $directory -type f -name "*.gcda";
-  - gcov src/fractal.cpp --object-directory=./build/CMakeFiles/fractal.dir/src/;
+  - gcov --object-directory=./build/CMakeFiles/fractal.dir/src/;
     
 after_success:
   - coveralls --verbose --exclude tools --exclude test --exclude build --gcov-options '\-lp'
