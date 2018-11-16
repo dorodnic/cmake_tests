@@ -4,7 +4,7 @@ project(fractal)
 
 set(CMAKE_CXX_STANDARD 11)
 
-option(BUILD_COVERAGE "Build with Code-Coverage" ON)
+option(BUILD_COVERAGE "Build with Code-Coverage" OFF)
 if(BUILD_COVERAGE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0") # debug, no optimisation
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage") # enabling coverage
