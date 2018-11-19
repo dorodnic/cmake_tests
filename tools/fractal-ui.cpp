@@ -44,6 +44,9 @@ int main()
         glfwGetFramebufferSize(window, &fb_width, &fb_height);
         glViewport(0, 0, fb_width, fb_height);
         
+	int w, h;
+	glfwGetWindowSize(window, &w, &h);
+
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glOrtho(0.f, fb_width, 0.f, fb_height, 0.f, 1.f);
@@ -90,7 +93,7 @@ int main()
                 double x, y;
                 glfwGetCursorPos(window, &x, &y);
                 selected_x[state] = x;
-                selected_y[state] = fb_height - y;
+                selected_y[state] = h - y;
 
                 state = (state + 1) % 2;
                 
@@ -101,12 +104,12 @@ int main()
                     auto y0 = std::min(selected_y[0], selected_y[1]);
                     auto y1 = std::max(selected_y[0], selected_y[1]);
                     
-                    auto ar = (float)fb_height / fb_width;
+                    auto ar = (float)h / w;
         
-                    auto t0 = x_coords[0] + (x_coords[1] - x_coords[0]) * x0 / (float)fb_width;
-                    auto s0 = y_coords[0] + (y_coords[1] - y_coords[0]) * y0 / (float)fb_height;
-                    auto t1 = x_coords[0] + (x_coords[1] - x_coords[0]) * x1 / (float)fb_width;
-                    auto s1 = y_coords[0] + (y_coords[1] - y_coords[0]) * y1 / (float)fb_height;
+                    auto t0 = x_coords[0] + (x_coords[1] - x_coords[0]) * x0 / (float)w;
+                    auto s0 = y_coords[0] + (y_coords[1] - y_coords[0]) * y0 / (float)h;
+                    auto t1 = x_coords[0] + (x_coords[1] - x_coords[0]) * x1 / (float)w;
+                    auto s1 = y_coords[0] + (y_coords[1] - y_coords[0]) * y1 / (float)h;
                     
                     auto sm = (s1 + s0) * 0.5;
                     auto tw = t1 - t0;
@@ -124,7 +127,7 @@ int main()
             double x, y;
             glfwGetCursorPos(window, &x, &y);
             selected_x[state] = x;
-            selected_y[state] = fb_height - y;
+            selected_y[state] = h - y;
         }
         
         glBindTexture(GL_TEXTURE_2D, texture_handle);
@@ -145,13 +148,16 @@ int main()
             auto y0 = std::min(selected_y[0], selected_y[1]);
             auto y1 = std::max(selected_y[0], selected_y[1]);
             
+            auto fx = fb_width / (double)w;
+            auto fy = fb_height / (double)h;
+
             glColor3f(1.f, 1.f, 1.f);
             glBegin(GL_LINE_STRIP);
-                glVertex2f(x0, y0);
-                glVertex2f(x1, y0);
-                glVertex2f(x1, y1);
-                glVertex2f(x0, y1);
-                glVertex2f(x0, y0);
+                glVertex2f(x0 * fx, y0 * fy);
+                glVertex2f(x1 * fx, y0 * fy);
+                glVertex2f(x1 * fx, y1 * fy);
+                glVertex2f(x0 * fx, y1 * fy);
+                glVertex2f(x0 * fx, y0 * fy);
             glEnd();
         }
         
