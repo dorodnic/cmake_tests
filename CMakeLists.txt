@@ -12,7 +12,8 @@ target_include_directories(fractal PUBLIC
 )
 
 set_target_properties(fractal
-    PROPERTIES PUBLIC_HEADER
+    PROPERTIES
+    PUBLIC_HEADER
     "include/fractal/fractal.h"
     )
 
@@ -45,6 +46,11 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/fractalConfig.cmake"
     DESTINATION ${CMAKECONFIG_INSTALL_DIR})
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/fractalConfigVersion.cmake"
     DESTINATION ${CMAKECONFIG_INSTALL_DIR})
+
+option(BUILD_INSTALLER "Build Installer" ON)
+if(BUILD_INSTALLER)
+    add_subdirectory(installer)
+endif()
 
 option(BUILD_TOOLS "Build UI Tools" ON)
 if(BUILD_TOOLS)
