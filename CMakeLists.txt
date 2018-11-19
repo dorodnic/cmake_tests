@@ -20,12 +20,9 @@ add_library(fractal src/fractal.cpp src/fractal.def include/fractal/fractal.h)
 
 target_compile_features(fractal PRIVATE cxx_std_11)
 
-target_include_directories(fractal
-    PUBLIC 
-        $<INSTALL_INTERFACE:include>    
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
+target_include_directories(fractal PUBLIC 
+    $<INSTALL_INTERFACE:include>    
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
 set_target_properties(fractal
@@ -78,3 +75,4 @@ option(BUILD_TOOLS "Build UI Tools" ON)
 if(BUILD_TOOLS)
     add_subdirectory(tools)
 endif()
+

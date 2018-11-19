@@ -1,15 +1,13 @@
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.8.0)
 
 project(fractal-tools)
-
-set(CMAKE_CXX_STANDARD 11)
 
 set(FRACTAL_UI_INCLUDES ../include)
 set(FRACTAL_UI_DEPENDENCIES fractal glfw3)
 
 find_package(OpenGL)
 if(NOT OPENGL_FOUND)
-    message(FATAL_ERROR "\n\n OpenGL package is missing!\n\n")
+    message(FATAL_ERROR "OpenGL package not found!")
 endif()
 list(APPEND FRACTAL_UI_DEPENDENCIES ${OPENGL_LIBRARIES})
 
@@ -53,6 +51,8 @@ if (UNIX)
 endif()
 
 add_executable(fractal-ui fractal-ui.cpp)
+
+target_compile_features(fractal-ui PRIVATE cxx_std_11)
 
 target_include_directories(fractal-ui PRIVATE ${FRACTAL_UI_INCLUDES})
 target_link_libraries(fractal-ui ${FRACTAL_UI_DEPENDENCIES})
