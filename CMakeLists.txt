@@ -7,3 +7,9 @@ add_library(fractal src/fractal.cpp include/fractal/fractal.h)
 target_compile_features(fractal PRIVATE cxx_std_11)
 
 target_include_directories(fractal PUBLIC include)
+
+option(BUILD_TOOLS "Build UI Tools" ON)
+if(BUILD_TOOLS)
+    add_subdirectory(tools)
+endif()
+
