@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.8.0)
 
 project(fractal VERSION 1.0.0 LANGUAGES CXX)
 
@@ -17,6 +17,8 @@ if(OPENMP_FOUND)
 endif()
 
 add_library(fractal src/fractal.cpp src/fractal.def include/fractal/fractal.h)
+
+target_compile_features(fractal PRIVATE cxx_std_11)
 
 target_include_directories(fractal
     PUBLIC 
