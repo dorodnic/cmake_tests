@@ -2,11 +2,18 @@ cmake_minimum_required(VERSION 3.1.0)
 
 project(fractal VERSION 1.0.0 LANGUAGES CXX)
 
+option(BUILD_COVERAGE "Build with Code-Coverage" OFF)
+if(BUILD_COVERAGE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0") # debug, no optimisation
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage") # enabling coverage
+    set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
+endif()
+
 find_package(OpenMP)
 if(OPENMP_FOUND)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
 add_library(fractal src/fractal.cpp src/fractal.def include/fractal/fractal.h)
@@ -18,8 +25,6 @@ target_include_directories(fractal
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
-
-target_compile_features(fractal PRIVATE cxx_std_11)
 
 set_target_properties(fractal
     PROPERTIES

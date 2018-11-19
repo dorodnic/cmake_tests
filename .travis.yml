@@ -25,6 +25,9 @@ addons:
     - libxrandr-dev
 
 before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
+      pip install --user cpp-coveralls;
+    fi
 
 install:
 
@@ -33,7 +36,7 @@ script:
     fi
   - echo "Building the library...";
   - mkdir build && cd build;
-  - cmake .. -DBUILD_SHARED_LIBS=true;
+  - cmake .. -DBUILD_SHARED_LIBS=true -DBUILD_COVERAGE=true;
   - cmake --build .;
   - echo "Running Unit-Tests...";
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then
@@ -41,13 +44,19 @@ script:
       ./test/Debug/unit-tests.exe;
     else ./test/unit-tests;
     fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
-      cmake .. -DCMAKE_INSTALL_PREFIX=/usr .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=true -DCPACK_GENERATOR="DEB;TGZ";
-      cpack ..;
-    fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then 
       cmake .. -DBUILD_SHARED_LIBS=false;
       cmake --build . --config Release;
+    fi
+  - cd ..;
+  - gcov src/fractal.cpp --object-directory=./build/CMakeFiles/fractal.dir/src/;
+  
+after_success:		
+   - coveralls --exclude tools --exclude test --exclude build --gcov-options '\-lp';
+   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      cd build;
+      cmake .. -DCMAKE_INSTALL_PREFIX=/usr .. -DBUILD_COVERAGE=false -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=false -DCPACK_GENERATOR="DEB;TGZ";
+      cpack .;
     fi
 
 deploy:

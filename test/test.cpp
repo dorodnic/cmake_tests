@@ -11,7 +11,7 @@ TEST_CASE("Test zero", "[mandelbrot]") {
 }
 
 TEST_CASE("Test bulk", "[mandelbrot]") {
-	const int iterations = 100;
+    const int iterations = 100;
     const int MAX = 10;
     double xs[MAX];
     double ys[MAX];
