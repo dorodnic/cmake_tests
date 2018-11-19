@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.1.0)
 
-project(fractal)
-
-set(CMAKE_CXX_STANDARD 11)
+project(fractal VERSION 1.0.0 LANGUAGES CXX)
 
 find_package(OpenMP)
 if(OPENMP_FOUND)
@@ -13,17 +11,21 @@ endif()
 
 add_library(fractal src/fractal.cpp src/fractal.def include/fractal/fractal.h)
 
-target_include_directories(fractal PRIVATE include)
+target_include_directories(fractal
+    PUBLIC 
+        $<INSTALL_INTERFACE:include>    
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_compile_features(fractal PRIVATE cxx_std_11)
 
 set_target_properties(fractal
     PROPERTIES
     PUBLIC_HEADER
     "include/fractal/fractal.h"
     )
-
-set(MAJOR_VERSION 1)
-set(MINOR_VERSION 0)
-set(PATCH_VERSION 0)
 
 install(TARGETS fractal
     EXPORT fractalTargets
@@ -46,7 +48,7 @@ configure_package_config_file(fractalConfig.cmake.in fractalConfig.cmake
     PATH_VARS CMAKE_INSTALL_INCLUDEDIR
 )
 write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/fractalConfigVersion.cmake"
-    VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}" COMPATIBILITY AnyNewerVersion)
+    VERSION "${PROJECT_VERSION}" COMPATIBILITY AnyNewerVersion)
 
 install(EXPORT fractalTargets FILE fractalTargets.cmake NAMESPACE fractal::
     DESTINATION ${CMAKECONFIG_INSTALL_DIR})
