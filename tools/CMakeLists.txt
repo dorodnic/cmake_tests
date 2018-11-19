@@ -14,7 +14,7 @@ list(APPEND FRACTAL_UI_DEPENDENCIES ${OPENGL_LIBRARIES})
 include(ExternalProject)
 
 ExternalProject_Add(
-	external_glfw
+    external_glfw
 
     GIT_REPOSITORY "https://github.com/glfw/glfw.git"
     GIT_TAG "3.2"
@@ -38,8 +38,7 @@ if(APPLE)
     find_library(IOKIT_LIBRARY IOKit)
     find_library(COREVIDEO_LIBRARY CoreVideo)
     LIST(APPEND FRACTAL_UI_DEPENDENCIES ${COCOA_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY})
-endif()
-if (UNIX)
+elseif(UNIX)
     find_package(Threads REQUIRED)
     find_library(x11 NAMES X11)
     find_library(xrandr NAMES Xrandr)
